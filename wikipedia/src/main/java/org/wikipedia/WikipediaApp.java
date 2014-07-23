@@ -68,6 +68,7 @@ public class WikipediaApp extends Application {
     public static String PREFERENCE_ONBOARD;
     public static String PREFERENCE_TEXT_SIZE_MULTIPLIER;
     public static String PREFERENCE_COLOR_THEME;
+    public static String PREFERENCE_CHANNEL;
 
     public static float SCREEN_DENSITY;
 
@@ -134,6 +135,7 @@ public class WikipediaApp extends Application {
         PREFERENCE_ONBOARD = getString(R.string.preference_onboard);
         PREFERENCE_TEXT_SIZE_MULTIPLIER = getString(R.string.preference_text_size_multiplier);
         PREFERENCE_COLOR_THEME = getString(R.string.preference_color_theme);
+        PREFERENCE_CHANNEL = getString(R.string.preference_channel);
 
         PROTOCOL = "https"; // Move this to a preference or something later on
 
@@ -168,11 +170,14 @@ public class WikipediaApp extends Application {
     private String userAgent;
     public String getUserAgent() {
         if (userAgent == null) {
-            userAgent = String.format("WikipediaApp/%s (Android %s; %s)",
+            String channel = Utils.getChannel(this);
+            channel = channel.equals("") ? channel : " ".concat(channel);
+            userAgent = String.format("WikipediaApp/%s (Android %s; %s)%s",
                     WikipediaApp.APP_VERSION_STRING,
                     Build.VERSION.RELEASE,
-                    getString(R.string.device_type
-                    ));
+                    getString(R.string.device_type),
+                    channel
+            );
         }
         return userAgent;
     }
